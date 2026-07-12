@@ -14,18 +14,15 @@ type NavLink = {
 
 const loggedOutLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Explore Tours", href: "/tours" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Explore Tours", href: "/all-tours" },
+  
 ];
 
 const loggedInLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Explore Tours", href: "/tours" },
-  { label: "Add Tour", href: "/tours/add" },
-  { label: "Manage Tours", href: "/tours/manage" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Explore Tours", href: "/all-tours" },
+  
+ 
 ];
 
 export default function Navbar() {

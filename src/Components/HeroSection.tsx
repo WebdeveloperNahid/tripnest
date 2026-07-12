@@ -4,11 +4,20 @@ import { Link } from "@heroui/react";
 import { FiArrowRight, FiSearch, FiMapPin } from "react-icons/fi";
 import { useState, useEffect } from "react";
 
+// 👉 To add more images, just add a new line here (any images.unsplash.com URL works).
+// 👉 Never use plus.unsplash.com links — those are paid/premium and may not load.
 const heroImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80",
   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&q=80",
-  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&q=80",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVVo1hwe8IKi7zTbrotGI1iOcElaAK9c7ekgp8Y-h_cA&s=10",
+  "https://images.unsplash.com/photo-1759043937434-cd264464f052?w=1600&q=80",
+  "https://images.unsplash.com/photo-1764319088750-149fb68b9df1?w=1600&q=80",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQddlay0ArtCYzS2FchWLAeqQdJaWAR4baW7sDX6LCVUg&s=10",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzulM6BmfvmCYNQEHL_KBDpaPbpkSujs_XydmW1HNw1A&s=10",
 ];
+
+// 👉 Change this number to control how fast slides change (in milliseconds).
+const SLIDE_INTERVAL_MS = 3500;
 
 export default function HeroSection() {
   const [destination, setDestination] = useState("");
@@ -17,7 +26,7 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
+    }, SLIDE_INTERVAL_MS);
     return () => clearInterval(interval);
   }, []);
 

@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { TTour } from "@/types/tours";
 import BookingModal from "./Bookingmodal";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 // import BookingModal from "./BookingModal";
 
 type TourDetailsProps = {
@@ -245,7 +246,7 @@ export default function TourDetails({ tour }: TourDetailsProps) {
                     onClick={() => setIsBookingOpen(true)}
                     className="w-full rounded-xl bg-[#E9C46A] px-4 py-3.5 text-sm font-bold uppercase tracking-wide text-[#1F2421] transition-transform hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    Book Now
+                    <span className="flex justify-center items-center gap-2">Sending Request <FaArrowAltCircleRight /> Book Now</span>
                   </button>
                 )}
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-[#FAF6EF]/50">

@@ -71,7 +71,7 @@ export default function Navbar() {
         {/* User name */}
         <span className="text-green-500 font-semibold">
           <h2>Hi!</h2>
-          {user?.name?.slice(0, 4)}
+          {user?.name}
         </span>
 
         {/* Desktop Auth */}

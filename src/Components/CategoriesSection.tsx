@@ -109,16 +109,7 @@ export default function CategoriesSection() {
         ))}
       </div>
 
-      {/* View all */}
-      <div className="mt-12 text-center">
-        <Link
-          href="/tours"
-          className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700"
-        >
-          View All Tours
-          <FiArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
+      
     </section>
   );
 }

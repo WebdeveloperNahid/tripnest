@@ -87,7 +87,7 @@ export default function HeroSection() {
             />
           </div>
           <Link
-            href={`/tours${destination ? `?search=${encodeURIComponent(destination)}` : ""}`}
+            href={`/all-tours${destination ? `?search=${encodeURIComponent(destination)}` : ""}`}
             className="flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-teal-700"
           >
             Search Tours

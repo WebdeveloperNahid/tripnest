@@ -15,12 +15,16 @@ type NavLink = {
 const loggedOutLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Explore Tours", href: "/all-tours" },
+  { label: "About", href: "/about" },     
+  { label: "Contact", href: "/contact" },
   
 ];
 
 const loggedInLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Explore Tours", href: "/all-tours" },
+  { label: "About", href: "/about" },    
+  { label: "Contact", href: "/contact" },
   
  
 ];

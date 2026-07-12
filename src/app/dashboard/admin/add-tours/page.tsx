@@ -18,6 +18,7 @@ import {
 
 import toast from "react-hot-toast";
 import { createAddTour } from "@/lib/actions/add-ture";
+import { useSession } from "@/lib/auth-client";
 
 const CATEGORIES = ["Beach", "Adventure", "Hill", "Historical"] as const;
 
@@ -48,6 +49,7 @@ const initialForm: TourFormState = {
 };
 
 export default function AddTourPage() {
+  const {data:session} = useSession();
   const router = useRouter();
 
   const [form, setForm] = useState<TourFormState>(initialForm);
@@ -107,6 +109,7 @@ export default function AddTourPage() {
       ...form,
       price: Number(form.price),
       rating: 0,
+      createdBy: session?.user.id,
       gallery: gallery.filter((g) => g.trim() !== ""),
       included: included.filter((i) => i.trim() !== ""),
       excluded: excluded.filter((ex) => ex.trim() !== ""),

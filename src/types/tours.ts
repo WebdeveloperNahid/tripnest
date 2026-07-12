@@ -14,6 +14,7 @@ export type TTour = {
   image: string;
   shortDescription: string;
   description: string;
+   createdBy?: string;
 };
 
 // নতুন tour create করার জন্য আলাদা type (_id ছাড়া)
@@ -30,4 +31,13 @@ export type TMutationResponse = {
   deletedCount?: number;
 };
 
+export type UpdateResult = {
+  acknowledged: boolean;
+  matchedCount: number;
+  modifiedCount: number;
+};
 
+export type DeleteResult = {
+  acknowledged: boolean;
+  deletedCount: number;
+};

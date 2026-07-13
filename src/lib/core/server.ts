@@ -20,10 +20,10 @@ const handleStatus = async <T = unknown>(
   }
 
   // ⭐ নতুন যোগ — response ok না হলে JSON parse না করে গ্রেসফুলি handle করুন
-  if (!res.ok) {
-    console.error(`API request failed: ${res.status} ${res.statusText}`);
-    return null as T;
-  }
+ if (!res.ok) {
+  console.warn(`API request failed: ${res.status} ${res.statusText}`);
+  return null as T;
+}
 
   return res.json();
 };

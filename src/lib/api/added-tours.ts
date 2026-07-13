@@ -1,7 +1,7 @@
 "use server";
 
 import { TTour } from "@/types/tours";
-import { serverFetch } from "../core/server";
+import { protectedFetch, serverFetch } from "../core/server";
 
 // Get -- All Tours --->   /// after added Search & pagination for has some change ---->>
 export type TourFilters = {
@@ -33,7 +33,7 @@ export const getAllTours = async (
   if (filters.page) params.set("page", filters.page);
 
   const query = params.toString();
-  const data = await serverFetch<TToursResponse>(
+  const data = await protectedFetch<TToursResponse>(
     `/api/add-tours${query ? `?${query}` : ""}`
   );
 

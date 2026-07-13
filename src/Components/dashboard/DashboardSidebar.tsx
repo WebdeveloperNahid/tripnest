@@ -32,10 +32,10 @@ export function DashboardSidebar() {
   const isAdmin = (session?.user as { role?: string })?.role === "admin";
 
   const userItems: NavItem[] = [
-    { icon: House, label: "Home", href: "/" },
-    { icon: Person, label: "Browse-Tours", href: "/dashboard/admin/all-tours" },
-    { icon: Envelope, label: "Manage-Tours", href: "/dashboard/manage-tours" },
-    { icon: Gear, label: "Booking-Request", href: "/dashboard/admin/booking-request" },
+    { icon: House, label: "Home", href: "/dashboard/user" },
+    { icon: Person, label: "Browse-Tours", href: "/all-tours" },
+    { icon: Gear, label: "Booking-Request", href: "/dashboard/user/booking-request" },
+    { icon: Envelope, label: "Review-Tours", href: "/dashboard/user/review" },
   ];
 
   const adminItems: NavItem[] = [

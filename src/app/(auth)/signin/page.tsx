@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiEye, FiEyeOff, FiMail, FiLock } from "react-icons/fi";
 import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,10 +17,10 @@ export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  // TS: (e: React.FormEvent)
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -33,12 +35,17 @@ export default function LoginPage() {
       if (authError) {
         setError(authError.message || "Invalid email or password.");
       } else {
-        router.push("/");
-        router.refresh();
+        setSuccess("Signed in successfully! Redirecting...");
+        setTimeout(() => {
+          router.push(redirectTo);
+        }, 1500);
       }
     } catch (err: unknown) {
-      // TS: (err: unknown)
-      setError("An unexpected network error occurred.");
+      const message =
+        err instanceof Error
+          ? err.message
+          : "An unexpected network error occurred.";
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +133,7 @@ export default function LoginPage() {
           <div className="mt-2 border-t border-slate-100 pt-4 text-center text-sm text-slate-500">
             Don&apos;t have an account?{" "}
             <Link
-              href="/signup"
+               href={`/signup?redirect=${encodeURIComponent(redirectTo)}`}
               className="font-semibold text-teal-600 hover:text-teal-700"
             >
               Sign up

@@ -6,7 +6,6 @@ import { Link } from "@heroui/react";
 import { FiCompass, FiMenu, FiX } from "react-icons/fi";
 import { signOut, useSession } from "@/lib/auth-client";
 
-
 type NavLink = {
   label: string;
   href: string;
@@ -15,19 +14,22 @@ type NavLink = {
 const loggedOutLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Explore Tours", href: "/all-tours" },
-  { label: "About", href: "/about" },     
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  
 ];
 
 const loggedInLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Explore Tours", href: "/all-tours" },
-  { label: "About", href: "/about" },    
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  
- 
 ];
+
+// role -> dashboard path mapping
+const dashboardLinks: Record<string, string> = {
+  user: "/dashboard/user",
+  admin: "/dashboard/admin",
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,135 +38,152 @@ export default function Navbar() {
 
   const { data: session, isPending } = useSession();
   const user = session?.user;
-  // console.log(session, isPending, user, "This navbar user name");
+
   const isLoggedIn = !isPending && !!session;
 
-  const links = isLoggedIn ? loggedInLinks : loggedOutLinks;
-
   const handleLogout = async () => {
-    await signOut();
-    setIsMenuOpen(false);
-    router.push("/");
-    router.refresh();
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+          window.location.href = "/";
+        },
+      },
+    });
   };
 
+  // base links depending on logged in/out state
+  const baseLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
+
+  // build the final links array (copy so we don't mutate the const arrays)
+  const links: NavLink[] = [...baseLinks];
+
+  if (user?.email) {
+    const userRole = user?.role?.toLowerCase() as string | undefined;
+    links.push({
+      label: "Dashboard",
+      href: (userRole && dashboardLinks[userRole]) || "/dashboard",
+    });
+  }
+
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand */}
-        <Link href="/" className="flex items-center gap-2">
-          <FiCompass className="h-6 w-6 text-teal-600" />
-          <span className="text-xl font-bold text-slate-900">TripNest</span>
+    <nav className="w-full border-b bg-white px-4 py-3 shadow-sm">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 items-center md:grid-cols-3">
+        {/* Left: Logo */}
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-lg font-bold text-gray-800"
+        >
+          <FiCompass className="text-2xl text-primary" />
+          TripNest
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden items-center gap-7 sm:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-medium ${
-                pathname === link.href ? "text-teal-600" : "text-slate-700"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Center: Nav links (desktop only) */}
+        <div className="hidden items-center justify-center gap-8 md:flex whitespace-nowrap">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={
+                  isActive
+                    ? "relative font-semibold text-primary after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:bg-primary"
+                    : "text-gray-600 transition-colors hover:text-primary"
+                }
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
-        {/* User name */}
-        <span className="text-green-500 font-semibold">
-          <h2>Hi!</h2>
-          {user?.name}
-        </span>
-
-        {/* Desktop Auth */}
-        <div className="hidden items-center gap-3 sm:flex">
+        {/* Right: Auth buttons (desktop) + mobile menu toggle */}
+        <div className="flex items-center justify-end gap-4">
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              className="hidden rounded-full bg-red-500 px-5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 md:block"
             >
               Logout
             </button>
           ) : (
-            <>
+            <div className="hidden items-center gap-3 md:flex">
               <Link
                 href="/signin"
-                className="text-sm font-medium text-slate-700 transition hover:text-teal-600"
+                className="rounded-full border border-emerald-500 px-5 py-2 text-sm font-medium text-emerald-600 shadow-sm transition-colors hover:bg-emerald-50"
               >
-                Login
+                Sign In
               </Link>
               <Link
                 href="/signup"
-                className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700"
+                className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-600"
               >
                 Sign Up
               </Link>
-            </>
+            </div>
           )}
-        </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="text-slate-700 sm:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? (
-            <FiX className="h-6 w-6" />
-          ) : (
-            <FiMenu className="h-6 w-6" />
-          )}
-        </button>
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="border-t border-slate-200 bg-white sm:hidden">
-          <div className="flex flex-col gap-1 px-4 py-3">
-            {links.map((link) => (
+        <div className="mt-3 flex flex-col gap-3 border-t pt-3 md:hidden">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`rounded-md px-3 py-2 text-sm font-medium ${
-                  pathname === link.href
-                    ? "bg-teal-50 text-teal-600"
-                    : "text-slate-700"
-                }`}
+                className={
+                  isActive
+                    ? "font-semibold text-primary"
+                    : "text-gray-600 hover:text-primary"
+                }
               >
                 {link.label}
               </Link>
-            ))}
-            <div className="mt-2 flex gap-2">
-              {isLoggedIn ? (
-                <button
-                  onClick={handleLogout}
-                  className="w-full rounded-lg border border-slate-300 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                >
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <Link
-                    href="/signin"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="w-1/2 rounded-lg border border-slate-300 px-5 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/signup"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="w-1/2 rounded-lg bg-teal-600 px-5 py-2 text-center text-sm font-medium text-white transition hover:bg-teal-700"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
+            );
+          })}
+
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleLogout();
+              }}
+              className="rounded-full bg-red-500 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-600"
+            >
+              Logout
+            </button>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/signin"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-full border border-emerald-500 px-5 py-2 text-center text-sm font-medium text-emerald-600 shadow-sm hover:bg-emerald-50"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-full bg-[#009689] px-5 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-emerald-600"
+              >
+                Sign Up
+              </Link>
             </div>
-          </div>
+          )}
         </div>
       )}
     </nav>

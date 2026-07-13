@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiEye, FiEyeOff, FiUser, FiMail, FiLock } from "react-icons/fi";
 import { signUp } from "@/lib/auth-client";
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   // Form fields
   const [name, setName] = useState("");
@@ -56,11 +58,10 @@ export default function SignupPage() {
       if (authError) {
         setError(authError.message || "Something went wrong during signup.");
       } else {
-        setSuccess("Account created successfully! Redirecting...");
+        setSuccess("Account created successfully! Redirecting to Home...");
         setTimeout(() => {
-          router.push("/");
-          router.refresh();
-        }, 1200);
+          router.push(redirectTo);
+        }, 1500);
       }
     } catch {
       setError("An unexpected network error occurred.");
@@ -200,7 +201,7 @@ export default function SignupPage() {
           <div className="mt-2 border-t border-slate-100 pt-4 text-center text-sm text-slate-500">
             Already have an account?{" "}
             <Link
-              href="/signin"
+              href={`/signin?redirect=${encodeURIComponent(redirectTo)}`}
               className="font-semibold text-teal-600 hover:text-teal-700"
             >
               Login instead

@@ -34,7 +34,8 @@ export const getAllTours = async (
 
   const query = params.toString();
   const data = await protectedFetch<TToursResponse>(
-    `/api/add-tours${query ? `?${query}` : ""}`
+    `/api/add-tours${query ? `?${query}` : ""}`,
+    `/all-tours${query ? `?${query}` : ""}`
   );
 
   return data ?? { tours: [], total: 0, page: 1, totalPages: 1 };
@@ -44,7 +45,10 @@ export const getAllTours = async (
 
 // Get -- Single Tour By ID
 export const getTourById = async (id: string): Promise<TTour | null> => {
-  const data = await serverFetch<TTour>(`/api/add-tours/${id}`);
+  const data = await protectedFetch<TTour>(
+    `/api/add-tours/${id}`,
+    `/all-tours/${id}` // 👈 এই লাইনটা যোগ করো
+  );
   return data ?? null;
 };
 

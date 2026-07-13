@@ -18,6 +18,13 @@ const handleStatus = async <T = unknown>(
   } else if (res.status === 403) {
     redirect("/unauthorized");
   }
+
+  // ⭐ নতুন যোগ — response ok না হলে JSON parse না করে গ্রেসফুলি handle করুন
+  if (!res.ok) {
+    console.error(`API request failed: ${res.status} ${res.statusText}`);
+    return null as T;
+  }
+
   return res.json();
 };
 

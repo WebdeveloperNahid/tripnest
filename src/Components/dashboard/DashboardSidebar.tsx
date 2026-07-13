@@ -5,11 +5,9 @@ import type { ComponentType, SVGProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Bell,
   Envelope,
   Gear,
   House,
-  Magnifier,
   Person,
   Plus,
   ListCheck,

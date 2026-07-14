@@ -43,7 +43,7 @@ export default function Pagination({
   };
 
   return (
-    <div className="mt-10 flex items-center justify-center gap-2">
+    <div className="mt-10 bg-[white] flex items-center justify-center gap-2">
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
@@ -71,7 +71,7 @@ export default function Pagination({
         <button
           key={page}
           onClick={() => goToPage(page)}
-          className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold transition-colors ${
+          className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold transition-colors  ${
             page === currentPage
               ? "bg-teal-600 text-white"
               : "text-slate-600 hover:bg-slate-50"

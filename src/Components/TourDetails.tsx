@@ -55,10 +55,10 @@ export default function TourDetails({ tour }: TourDetailsProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#e0f0e2] pb-24">
+    <div className="min-h-screen  pb-24">
       {/* Breadcrumb */}
       <div className="mx-auto  max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-[#1F2421]/50">
+        <nav className="flex items-center gap-1.5  font-mono text-xs uppercase tracking-wide text-[#1F2421]/50">
           <span>Home</span>
           <FiChevronRight className="h-3 w-3" />
           <span>Tours</span>
@@ -68,7 +68,7 @@ export default function TourDetails({ tour }: TourDetailsProps) {
       </div>
 
       {/* Hero gallery */}
-      <div className="mx-auto mt-4 max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-4 max-w-6xl  px-4 sm:px-6 lg:px-8">
         <div className="relative h-[320px] w-full overflow-hidden rounded-3xl sm:h-[420px] lg:h-[500px]">
           <img
             src={activeImage}

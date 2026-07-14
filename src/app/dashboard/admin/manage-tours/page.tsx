@@ -89,8 +89,8 @@ export default function ManageToursPage() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Manage Your Tours</h1>
+    <div className="p-6 bg-[#01504bea]">
+      <h1 className="text-2xl font-bold  mb-4">Manage Your Tours</h1>
 
       {tours.length === 0 && <p>You have not posted any tours yet.</p>}
 
@@ -98,7 +98,7 @@ export default function ManageToursPage() {
         {tours.map((tour) => (
           <div
             key={tour._id}
-            className="border rounded-lg p-4 flex justify-between items-center gap-4"
+            className="border bg-white rounded-lg p-4 flex justify-between items-center gap-4"
           >
             <div className="flex items-center gap-4">
               {tour.image && (

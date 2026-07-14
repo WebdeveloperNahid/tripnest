@@ -61,7 +61,7 @@ export default function UserPage() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-[#01504bea] max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col items-start gap-4 rounded-3xl bg-slate-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">

@@ -74,7 +74,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div>
+    <div className="bg-[#01504bea]">
       {/* Hero */}
       <section className="bg-slate-900 py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">

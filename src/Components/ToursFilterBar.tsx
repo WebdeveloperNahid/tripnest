@@ -76,7 +76,7 @@ export default function ToursFilterBar() {
     activeMinPrice === min && activeMaxPrice === max;
 
   return (
-    <div className="mb-8 space-y-4 rounded-3xl border border-slate-200 bg-[#07ada0] p-5 shadow-sm">
+    <div className="mb-8 bg-[#01504bea] space-y-4 rounded-3xl border border-slate-200  p-5 shadow-sm">
       {/* Search + Sort row */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="flex flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4">

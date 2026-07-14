@@ -13,8 +13,10 @@ import {
   ListCheck,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
-import { RiSideBarFill } from "react-icons/ri";
+
 import { useSession } from "@/lib/auth-client";
+import { COLORS } from "@/lib/theme";
+import { TfiMenuAlt } from "react-icons/tfi";
 
 type NavItem = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
@@ -24,10 +26,13 @@ type NavItem = {
 
 export function DashboardSidebar() {
   const pathname = usePathname();
-  const { data: session } = useSession();
-  console.log(session,"role===")
+  const { data: session, isPending } = useSession();
 
-  const isAdmin = (session?.user as { role?: string })?.role === "admin";
+  // While the session is still resolving, server and first client paint both
+  // fall through to `isAdmin = false` — identical output, so hydration can't
+  // mismatch. Once isPending flips to false, this updates safely post-hydration.
+  const isAdmin =
+    !isPending && (session?.user as { role?: string })?.role === "admin";
 
   const userItems: NavItem[] = [
     { icon: House, label: "Home", href: "/dashboard/user" },
@@ -54,13 +59,24 @@ export function DashboardSidebar() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors ${
-              isActive
-                ? "bg-default text-foreground font-medium"
-                : "text-foreground hover:bg-default"
-            }`}
+            className="group relative flex items-center gap-3 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-slate-50"
+            style={{
+              color: isActive ? COLORS.ocean : COLORS.inkMuted,
+              backgroundColor: isActive ? COLORS.ocean50 : "transparent",
+            }}
           >
-            <item.icon className="size-4 text-muted" />
+            {/* active-route accent bar — single brand color, no gradient noise */}
+            <span
+              className="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full transition-opacity duration-200"
+              style={{
+                backgroundColor: COLORS.ocean,
+                opacity: isActive ? 1 : 0,
+              }}
+            />
+            <item.icon
+              className="size-4 transition-colors duration-200"
+              style={{ color: isActive ? COLORS.ocean : COLORS.inkMuted }}
+            />
             {item.label}
           </Link>
         );
@@ -71,7 +87,10 @@ export function DashboardSidebar() {
   const NavContent = (
     <div className="flex flex-col gap-6">
       <div>
-        <p className="px-3 mb-1 text-xs font-semibold text-muted uppercase">
+        <p
+          className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider"
+          style={{ color: COLORS.inkMuted }}
+        >
           {isAdmin ? "Admin" : "User"}
         </p>
         {renderLinks(items)}
@@ -81,21 +100,29 @@ export function DashboardSidebar() {
 
   return (
     <>
-      <aside className="hidden w-52 flex-shrink-0 border-r border-slate-200 bg-white p-3 lg:block">
+      <aside
+        className="hidden w-fit flex-shrink-0 border-r bg-white px-3 py-4 lg:block"
+        style={{ borderColor: COLORS.ocean50 }}
+      >
         {NavContent}
       </aside>
 
       <Drawer>
-        <Button className="lg:hidden" variant="secondary">
-          <RiSideBarFill />
-          SideBar
+        <Button
+          className="lg:hidden"
+          variant="secondary"
+          style={{ color: COLORS.ocean, borderColor: COLORS.ocean }}
+        >
+          <TfiMenuAlt />
         </Button>
         <Drawer.Backdrop>
           <Drawer.Content placement="left">
             <Drawer.Dialog>
               <Drawer.CloseTrigger />
               <Drawer.Header>
-                <Drawer.Heading>Navigation</Drawer.Heading>
+                <Drawer.Heading style={{ color: COLORS.ink }}>
+                  Navigation
+                </Drawer.Heading>
               </Drawer.Header>
               <Drawer.Body>{NavContent}</Drawer.Body>
             </Drawer.Dialog>

@@ -140,9 +140,9 @@ export default function AddTourPage() {
 };
 
   return (
-    <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-4xl bg-[#01504bea] px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-4 py-1.5 text-xs font-semibold text-teal-700">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-700 px-4 py-1.5 text-xs font-semibold text-white">
           <FiTag className="h-3.5 w-3.5" />
           AGENCY DASHBOARD
         </span>
@@ -156,7 +156,7 @@ export default function AddTourPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
+        className="space-y-8 rounded-3xl border border-slate-100 bg-white  p-6 shadow-sm sm:p-8"
       >
         {/* Basic Info */}
         <div>

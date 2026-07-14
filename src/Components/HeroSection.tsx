@@ -1,12 +1,12 @@
 "use client";
 
 import { Link } from "@heroui/react";
-import { FiArrowRight, FiSearch, FiMapPin } from "react-icons/fi";
+import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { useState, useEffect } from "react";
 
 // 👉 To add more images, just add a new line here (any images.unsplash.com URL works).
 // 👉 Never use plus.unsplash.com links — those are paid/premium and may not load.
-const heroImages = [
+const heroImages: string[] = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80",
   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&q=80",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVVo1hwe8IKi7zTbrotGI1iOcElaAK9c7ekgp8Y-h_cA&s=10",
@@ -19,9 +19,28 @@ const heroImages = [
 // 👉 Change this number to control how fast slides change (in milliseconds).
 const SLIDE_INTERVAL_MS = 3500;
 
+// ---- Same TripNest palette used in the Navbar, kept consistent site-wide ----
+const COLORS = {
+  oceanDark: "#0B3D3B",
+  ocean: "#0E7C7B",
+  coral: "#F4623A",
+  coralDark: "#DD4F2B",
+  gold: "#F4A340",
+};
+
+type Stat = {
+  value: string;
+  label: string;
+};
+
+const stats: Stat[] = [
+  { value: "500+", label: "Tour Packages" },
+  { value: "50K+", label: "Happy Travelers" },
+  { value: "4.8★", label: "Average Rating" },
+];
+
 export default function HeroSection() {
-  const [destination, setDestination] = useState("");
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentImage, setCurrentImage] = useState<number>(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,8 +49,17 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
+  // Clicking anywhere on the hero (outside the dots / CTA) also advances the slide
+  const advanceSlide = () => {
+    setCurrentImage((prev) => (prev + 1) % heroImages.length);
+  };
+
   return (
-    <section className="relative flex h-[65vh] min-h-[420px] items-center justify-center overflow-hidden bg-slate-900">
+    <section
+      onClick={advanceSlide}
+      className="relative flex h-[65vh] min-h-[420px] cursor-pointer items-center justify-center overflow-hidden"
+      style={{ backgroundColor: COLORS.oceanDark }}
+    >
       {/* Background Image Slider */}
       {heroImages.map((img, index) => (
         <div
@@ -42,72 +70,104 @@ export default function HeroSection() {
           style={{ backgroundImage: `url('${img}')` }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900" />
+
+      {/* Ocean-tinted gradient overlay instead of plain slate, matches brand */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(11,61,59,0.75), rgba(11,61,59,0.45) 45%, rgba(11,61,59,0.92))",
+        }}
+      />
+
+      {/* Subtle coral warmth glow — signature accent, echoes the CTA color */}
+      <div
+        className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
+        style={{ backgroundColor: COLORS.coral }}
+      />
 
       {/* Slide Indicators */}
-      <div className="absolute top-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+      <div className="absolute left-1/2 top-6 z-10 flex -translate-x-1/2 gap-2">
         {heroImages.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentImage(index)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentImage(index);
+            }}
             aria-label={`Slide ${index + 1}`}
-            className={`h-1.5 rounded-full transition-all ${
-              index === currentImage ? "w-8 bg-teal-400" : "w-1.5 bg-white/40"
-            }`}
+            className="h-1.5 rounded-full transition-all duration-300"
+            style={{
+              width: index === currentImage ? "2rem" : "0.375rem",
+              backgroundColor:
+                index === currentImage ? COLORS.gold : "rgba(255,255,255,0.4)",
+            }}
           />
         ))}
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
-        <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-teal-300 backdrop-blur">
+      <div
+        className="relative z-10 mx-auto max-w-3xl px-4 text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span
+          className="animate-heroFadeUp inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium backdrop-blur"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.1)",
+            color: COLORS.gold,
+            animationDelay: "0ms",
+          }}
+        >
           <FiMapPin className="h-4 w-4" />
           Explore 50+ Destinations Worldwide
         </span>
 
-        <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+        <h1
+          className="animate-heroFadeUp mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
+          style={{ animationDelay: "120ms" }}
+        >
           Discover Your Next Adventure
         </h1>
 
-        <p className="mt-4 text-base text-slate-200 sm:text-lg">
+        <p
+          className="animate-heroFadeUp mt-4 text-base sm:text-lg"
+          style={{ color: "rgba(255,255,255,0.82)", animationDelay: "240ms" }}
+        >
           Handpicked tour packages, verified guides, and unforgettable
           memories — all in one place.
         </p>
 
-        {/* Interactive Search Bar */}
-        <div className="mt-8 flex flex-col gap-3 rounded-2xl bg-white p-2 shadow-xl sm:flex-row">
-          <div className="flex flex-1 items-center gap-2 px-3">
-            <FiSearch className="h-5 w-5 text-slate-400" />
-            <input
-              type="text"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              placeholder="Where do you want to go?"
-              className="w-full py-2 text-sm text-slate-800 outline-none placeholder:text-slate-400"
-            />
-          </div>
+        {/* Single CTA — search bar removed, this is the one action of the hero */}
+        <div
+          className="animate-heroFadeUp mt-8 flex justify-center"
+          style={{ animationDelay: "360ms" }}
+        >
           <Link
-            href={`/all-tours${destination ? `?search=${encodeURIComponent(destination)}` : ""}`}
-            className="flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-teal-700"
+            href="/all-tours"
+            className="group inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(244,98,58,0.55)] active:translate-y-0"
+            style={{
+              background: `linear-gradient(135deg, ${COLORS.coral}, ${COLORS.coralDark})`,
+            }}
           >
-            Search Tours
-            <FiArrowRight className="h-4 w-4" />
+            Explore Tours
+            <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
-        <div className="mt-6 flex justify-center gap-8 text-sm text-slate-300">
-          <div>
-            <span className="block text-xl font-bold text-white">500+</span>
-            Tour Packages
-          </div>
-          <div>
-            <span className="block text-xl font-bold text-white">50K+</span>
-            Happy Travelers
-          </div>
-          <div>
-            <span className="block text-xl font-bold text-white">4.8★</span>
-            Average Rating
-          </div>
+        <div className="mt-8 flex justify-center gap-8 text-sm" style={{ color: "rgba(255,255,255,0.75)" }}>
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className="animate-heroFadeUp"
+              style={{ animationDelay: `${480 + i * 120}ms` }}
+            >
+              <span className="block text-xl font-bold" style={{ color: COLORS.gold }}>
+                {stat.value}
+              </span>
+              {stat.label}
+            </div>
+          ))}
         </div>
       </div>
 

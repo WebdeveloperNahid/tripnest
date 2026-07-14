@@ -30,7 +30,7 @@ const AllToursPage = async ({ searchParams }: AllToursPageProps) => {
   });
 
   return (
-    <section className="mx-auto bg-[#9dbbb8] max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-[#F5F5DC] max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">Explore Tours</h1>
         <p className="mt-2 text-slate-500">

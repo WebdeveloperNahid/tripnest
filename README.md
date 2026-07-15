@@ -1,4 +1,6 @@
 # TripNest 🌍
+<img width="1906" height="994" alt="Screenshot 2026-07-15 134237" src="https://github.com/user-attachments/assets/536ebb65-e39c-4f28-a676-26c57801da5f" />
+
 ![Uploading Screenshot 2026-07-15 134237.png…]()
 
 

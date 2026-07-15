@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TripNest 🌍
+![Uploading Screenshot 2026-07-15 134237.png…]()
 
-## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A full-stack travel tour discovery and booking platform built with **Next.js**, **Express.js**, **TypeScript**, and **MongoDB**.
+
+**Live Site (Frontend):** [https://tripnest-seven.vercel.app](https://tripnest-seven.vercel.app)
+**Live API (Backend):** [https://tripnest-server.vercel.app](https://tripnest-server.vercel.app)
+
+**GitHub Repositories:**
+- Frontend: [github.com/WebdeveloperNahid/tripnest](https://github.com/WebdeveloperNahid/tripnest)
+- Backend: [github.com/WebdeveloperNahid/tripnest-server](https://github.com/WebdeveloperNahid/tripnest-server)
+
+---
+
+## 📖 About
+
+TripNest is a travel platform where **Admins (travel agencies)** can create and manage tour packages, and **Users (travelers)** can browse, search, filter, and book tours across categories like Beach, Adventure, Hill & Mountain, and Historical destinations.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Next.js** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **React Icons**
+- Hero UI
+
+
+### Backend
+- **Node.js + Express.js** (v5)
+- **TypeScript**
+- **MongoDB** (native driver)
+- **Custom Authentication** — token/session-based middleware (`verifyToken`, `verifyUser`, `verifyAdmin`), backed by `session` and `user` collections
+
+---
+
+## ✨ Features
+
+### Public
+- Responsive **Home Page** with Hero section, Categories, Features, Statistics, Testimonials, Newsletter, and FAQ sections
+- **Explore Tours** page with:
+  - Search bar (title/destination)
+  - Filters: Category + Price Range
+  - Sorting: Price (low/high), Rating, Newest
+  - Pagination
+- **Tour Details** page with image gallery, overview, key information, and related tours
+- **About** and **Contact** pages
+
+### Authentication
+- Login & Registration with validation and error handling
+- Demo login (auto-fill credentials)
+- Session/token-based authentication with role verification (`user` / `admin`)
+
+### Protected — Admin
+- **Add Tour** — create new tour packages
+- **Manage Tours** — view, edit, and delete tour packages (ownership-based authorization)
+
+### Protected — User
+- **Book Tour** — book an available tour package
+- View and manage personal bookings
+
+---
+
+## 🔌 API Endpoints (Backend)
+
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/api/add-tours` | Admin | Create a new tour |
+| GET | `/api/add-tours` | Public | List all tours (search, filter, sort, pagination) |
+| GET | `/api/add-tours/latest` | Public | Latest 6 tours (for Home page) |
+| GET | `/api/add-tours/:id` | Public | Get tour details by ID |
+| GET | `/api/add-tours/user/:userId` | Owner | Get tours created by a specific user |
+| PATCH | `/api/add-tours/:id` | Owner | Update a tour |
+| DELETE | `/api/add-tours/:id` | Owner | Delete a tour |
+| POST | `/api/bookings` | User | Book a tour |
+| GET | `/api/bookings/user/:userId` | User | Get a user's bookings |
+
+---
+
+## 🎨 Design System
+
+| Role | Color |
+|------|-------|
+| Primary | Teal |
+| Accent | Coral |
+| Neutral | Slate |
+
+Consistent card sizing, border radius, and spacing throughout. Fully responsive across mobile, tablet, and desktop.
+
+---
+
+## 📁 Project Structure
+
+```
+tripnest/               → Next.js frontend
+  src/
+    app/                → Pages (App Router)
+    Components/         → Reusable UI components
+    lib/                → API helpers, auth utilities
+    types/               → TypeScript type definitions
+
+tripnest-server/        → Express.js backend
+  index.ts              → Server entry point, routes, MongoDB connection
+  middleware/           → verifyToken, verifyUser, verifyAdmin
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔑 Demo Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Role | Email | Password |
+|------|-------|----------|
+| User | user@tripnest.com | user1234 |
+| Admin | admin@tripnest.com | admin1234 |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend
+```bash
+git clone https://github.com/WebdeveloperNahid/tripnest.git
+cd tripnest
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend
+```bash
+git clone https://github.com/WebdeveloperNahid/tripnest-server.git
+cd tripnest-server
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
+### Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**tripnest/.env.local**
+```
+NEXT_PUBLIC_BASE_URL=http://localhost:7000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**tripnest-server/.env**
+```
+MONGO_DB_URI=your_mongodb_connection_string
+PORT=7000
+```
+
+---
+
+## 📄 License
+
+Built as a TypeScript full-stack assignment project.

@@ -1,9 +1,6 @@
 # TripNest 🌍
 <img width="1906" height="994" alt="Screenshot 2026-07-15 134237" src="https://github.com/user-attachments/assets/536ebb65-e39c-4f28-a676-26c57801da5f" />
 
-![Uploading Screenshot 2026-07-15 134237.png…]()
-
-
 
 A full-stack travel tour discovery and booking platform built with **Next.js**, **Express.js**, **TypeScript**, and **MongoDB**.
 
@@ -109,6 +106,12 @@ tripnest-server/        → Express.js backend
   index.ts              → Server entry point, routes, MongoDB connection
   middleware/           → verifyToken, verifyUser, verifyAdmin
 ```
+
+## 🧗 Challenges Faced
+
+This was my **first project built with TypeScript**. I was already comfortable with JavaScript, Express, MongoDB, and authentication concepts from previous projects, so the real challenge was learning TypeScript itself — understanding types, interfaces, generics, and fixing type errors — while still delivering a complete, production-ready full-stack application within the assignment deadline.
+
+Moving from writing loose JavaScript to strict, type-safe TypeScript across both the Next.js frontend and Express backend took some adjustment, but I was able to pick it up steadily and complete the project successfully.
 
 ---
 
